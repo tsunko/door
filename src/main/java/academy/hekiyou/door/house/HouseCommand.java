@@ -135,7 +135,7 @@ public class HouseCommand implements Command {
                 StringBuilder sb = new StringBuilder();
                 for(; j < arguments.length; j++)
                     sb.append(arguments[j]).append(' ');
-                methodArguments[i] = sb.substring(0, sb.length() - 1).trim();
+                methodArguments[i] = interpreter.apply(sb.substring(0, sb.length() - 1).trim());
                 break;
             }
             
