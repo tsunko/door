@@ -132,9 +132,6 @@ public class HouseCommand implements Command {
             
             // got a GlobAll, just glob everything
             if(cachedParameters[j].isAnnotationPresent(GlobAll.class)){
-                if(paramType != String.class)
-                    throw new IllegalArgumentException("got GlobAll but was not String type");
-                
                 StringBuilder sb = new StringBuilder();
                 for(; j < arguments.length; j++)
                     sb.append(arguments[j]).append(' ');
