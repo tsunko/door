@@ -12,6 +12,7 @@ public class SettingsTest {
     private static final String testSub  = UUID.randomUUID().toString();
     private static final String testPerm = UUID.randomUUID().toString();
     private static final String testUse  = UUID.randomUUID().toString();
+    private static final String testInt  = UUID.randomUUID().toString();
     
     @Test
     public void customSettingsBuilder(){
@@ -20,7 +21,8 @@ public class SettingsTest {
                .invalidArgumentPrefix(testArg)
                .invalidSubcommandError(testSub)
                .permissionError(testPerm)
-               .usageErrorFormat(testUse);
+               .usageErrorFormat(testUse)
+               .badInterpretationPrefix(testInt);
         
         Settings settings = builder.build();
         
@@ -29,6 +31,7 @@ public class SettingsTest {
         Assert.assertEquals(testSub, settings.getInvalidSubcommandError());
         Assert.assertEquals(testPerm, settings.getPermissionError());
         Assert.assertEquals(testUse, settings.getUsageErrorFormat());
+        Assert.assertEquals(testInt, settings.getBadInterpretationPrefix());
     }
     
 }

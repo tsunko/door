@@ -48,7 +48,7 @@ public class HouseBranchingCommand extends HouseCommand {
         Command branchToExecute;
         
         // check if the user input a valid branch
-        if(arguments.length < 1 || (branchToExecute = branches.get(arguments[0])) == null){
+        if(arguments.length < 1 || (branchToExecute = branches.get(arguments[0].toLowerCase())) == null){
             invoker.sendMessage(FrontDoor.getSettings().getInvalidSubcommandError(), getBranchesVal());
             return;
         }
@@ -68,9 +68,7 @@ public class HouseBranchingCommand extends HouseCommand {
     private @NotNull String getBranchesVal(){
         if(branchesVal == null){
             StringBuilder sb = new StringBuilder();
-            branches.keySet().forEach(branch -> {
-                sb.append(branch).append(", ");
-            });
+            branches.keySet().forEach(branch -> sb.append(branch).append(", "));
             branchesVal = sb.substring(0, sb.length() - 2);
         }
         return branchesVal;

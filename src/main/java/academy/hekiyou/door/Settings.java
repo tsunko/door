@@ -51,14 +51,21 @@ public final class Settings {
      */
     private String invalidSubcommandError;
     
+    /**
+     * Represents the prefix for the error message returned from a
+     * {@link academy.hekiyou.door.exception.BadInterpretationException}
+     */
+    private String badInterpretationPrefix;
+    
     private Settings(@NotNull String errorPrefix, @NotNull String invalidArgumentPrefix,
                      @NotNull String usageErrorFormat, @NotNull String permissionError,
-                     @NotNull String invalidSubcommandError){
+                     @NotNull String invalidSubcommandError, @NotNull String badInterpretationPrefix){
         this.errorPrefix = errorPrefix;
         this.invalidArgumentPrefix = invalidArgumentPrefix;
         this.usageErrorFormat = usageErrorFormat;
         this.permissionError = permissionError;
         this.invalidSubcommandError = invalidSubcommandError;
+        this.badInterpretationPrefix = badInterpretationPrefix;
     }
     
     /**
@@ -121,6 +128,17 @@ public final class Settings {
     }
     
     /**
+     * Return the prefix used to prefix the message returned from a
+     * {@link academy.hekiyou.door.exception.BadInterpretationException}
+     *
+     * @return The bad interpretation message prefix
+     */
+    @NotNull
+    public String getBadInterpretationPrefix(){
+        return badInterpretationPrefix;
+    }
+    
+    /**
      * A builder class used to build a {@link Settings} object
      */
     public static class Builder {
@@ -130,6 +148,7 @@ public final class Settings {
         private String usageErrorFormat = "Usage: %s";
         private String permissionError = "Permission required not granted.";
         private String invalidSubcommandError = "Invalid subcommand. Subcommands are: %s";
+        private String badInterpretationPrefix = "";
         
         /**
          * Sets the error prefix
@@ -206,9 +225,25 @@ public final class Settings {
             return this;
         }
         
+        /**
+         * Sets the bad interpretation prefix
+         *
+         * @param badInterpretationPrefix the new format to set
+         *
+         * @return The current builder
+         *
+         * @see Settings#usageErrorFormat
+         */
+        @NotNull
+        public Builder badInterpretationPrefix(@NotNull String badInterpretationPrefix){
+            this.badInterpretationPrefix = badInterpretationPrefix;
+            return this;
+        }
+        
         @NotNull
         public Settings build(){
-            return new Settings(errorPrefix, invalidArgumentPrefix, usageErrorFormat, permissionError, invalidSubcommandError);
+            return new Settings(errorPrefix, invalidArgumentPrefix, usageErrorFormat,
+                    permissionError, invalidSubcommandError, badInterpretationPrefix);
         }
         
     }

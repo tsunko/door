@@ -48,8 +48,6 @@ public class House implements ModuleLoader, Executor {
         T inst;
         try {
             Constructor<T> constructor = klass.getConstructor();
-            if(constructor == null)
-                throw new IllegalArgumentException(klass.getName() + " did not have a no-arg constructor.");
             inst = constructor.newInstance();
         } catch(NoSuchMethodException | IllegalAccessException |
                 InstantiationException | InvocationTargetException exc) {
@@ -131,7 +129,7 @@ public class House implements ModuleLoader, Executor {
                 continue;
             
             if(base.equals(splitName[0]))
-                branches.put(splitName[1], new HouseCommand(method.getName(), ref, method, meta));
+                branches.put(splitName[1].toLowerCase(), new HouseCommand(method.getName(), ref, method, meta));
         }
         return branches;
     }

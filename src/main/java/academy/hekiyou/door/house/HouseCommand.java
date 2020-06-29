@@ -124,9 +124,11 @@ public class HouseCommand implements Command {
         Object[] methodArguments = new Object[cachedParameters.length];
         Class<?> paramType;
         Interpreter<?> interpreter;
+        BadInterpretationException badArgException = null;
         for(int i = 0, j = 0; i < methodArguments.length; i++){
             paramType = cachedParameters[i].getType();
             interpreter = Interpreters.of(paramType);
+            
             if(interpreter == null)
                 throw new IllegalStateException(paramType.getName() + " has no interpreter");
             
@@ -145,6 +147,7 @@ public class HouseCommand implements Command {
                     j++; // increment j to indicate we successfully interpreted the arg at j
                     continue;
                 } catch(BadInterpretationException exc) {
+                    badArgException = exc;
                     // let it execute to supplying defaults
                 }
             }
@@ -155,6 +158,8 @@ public class HouseCommand implements Command {
                 // otherwise try to get the default value
                 methodArguments[i] = (optional instanceof OptionalObject ? null : getDefaultVal(optional));
             } else {
+                if(badArgException != null)
+                    invoker.sendMessage(FrontDoor.getSettings().getBadInterpretationPrefix() + badArgException.getMessage());
                 invoker.sendMessage(FrontDoor.getSettings().getUsageErrorFormat(),
                         formatError(commandName, i));
                 return;

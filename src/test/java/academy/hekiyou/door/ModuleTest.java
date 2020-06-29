@@ -75,6 +75,10 @@ public class ModuleTest {
         
         String recvMessage = mockInvoker.getMessage();
         Assert.assertNotNull(recvMessage);
+        Assert.assertEquals("Non-numeric input: \"mock\"", recvMessage);
+        
+        recvMessage = mockInvoker.getMessage();
+        Assert.assertNotNull(recvMessage);
         Assert.assertEquals("Usage: mockArgument <message> --><integerMessage>", recvMessage);
     }
     
